@@ -156,13 +156,17 @@
 {
 	@autoreleasepool {
 	
-		NSString *path = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] bundlePath], _thumbUrl];
-		_thumbnail = [UIImage imageWithContentsOfFile:path];
+	NSString *path;
+        
+        if([[NSFileManager defaultManager] fileExistsAtPath:_thumbUrl])
+        {
+            path = _thumbUrl;
+        }
+        else {
+            path = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] bundlePath], _thumbUrl];
+        }
 		
-		_hasThumbLoaded = YES;
-		_isThumbLoading = NO;
-		
-		[self performSelectorOnMainThread:@selector(didLoadThumbnail) withObject:nil waitUntilDone:YES];
+	_thumbnail = [[UIImage imageWithContentsOfFile:path] retain];
 	
 	}
 }

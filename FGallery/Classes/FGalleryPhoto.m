@@ -74,14 +74,16 @@
 		
 		_isThumbLoading = YES;
 
-        [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:_thumbUrl] options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
-        }                                        completed:^(UIImage *downloadedImage, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+        [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:_thumbUrl]
+                                                        options:SDWebImageRetryFailed
+                                                       progress:^(NSInteger receivedSize, NSInteger expectedSize) {}
+                                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
             if (error) {
-                downloadedImage = [UIImage imageNamed:@"timeline_placeholder.png"];
+                image = [UIImage imageNamed:@"timeline_placeholder.png"];
             }
             _isThumbLoading = NO;
             _hasThumbLoaded = YES;
-            _thumbnail = downloadedImage;
+            _thumbnail = image;
             if (_delegate)
                 [self didLoadThumbnail];
         }];
@@ -112,14 +114,18 @@
 		
 		_isFullsizeLoading = YES;
 		
-        [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:_fullsizeUrl] options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
-        }                                        completed:^(UIImage *downloadedImage, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+//        [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:_fullsizeUrl] options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
+//        }                                        completed:^(UIImage *downloadedImage, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+        [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:_fullsizeUrl]
+                                                        options:SDWebImageRetryFailed
+                                                       progress:^(NSInteger receivedSize, NSInteger expectedSize) {}
+                                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
             if (error) {
-                downloadedImage = [UIImage imageNamed:@"timeline_placeholder.png"];
+                image = [UIImage imageNamed:@"timeline_placeholder.png"];
             }
             _isFullsizeLoading = NO;
             _hasFullsizeLoaded = YES;
-            _fullsize = downloadedImage;
+            _fullsize = image;
             if (_delegate)
                 [self didLoadFullsize];
         }];

@@ -172,7 +172,7 @@
             path = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] bundlePath], _thumbUrl];
         }
 		
-	_thumbnail = [[UIImage imageWithContentsOfFile:path] retain];
+	_thumbnail = [UIImage imageWithContentsOfFile:path];
 	
 	}
 }

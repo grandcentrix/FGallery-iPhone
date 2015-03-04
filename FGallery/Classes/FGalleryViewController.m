@@ -221,9 +221,6 @@
     _caption.shadowOffset						= CGSizeMake( 1, 1 );
     
     // make things flexible
-    _container.autoresizesSubviews				= NO;
-    _innerContainer.autoresizesSubviews			= NO;
-    _scroller.autoresizesSubviews				= NO;
     _container.autoresizingMask					= UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
     // setup thumbs view
@@ -261,6 +258,9 @@
     
     // build stuff
     [self reloadGallery];
+    
+    _innerContainer.autoresizingMask =
+    _scroller.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
 }
 
 
@@ -363,6 +363,9 @@
 	// init with next on first run.
 	if( _currentIndex == -1 ) [self next];
 	else [self gotoImageByIndex:_currentIndex animated:NO];
+
+    _innerContainer.bounds = self.view.bounds;
+    _scroller.frame = _innerContainer.bounds;
 }
 
 
@@ -520,43 +523,6 @@
 		[self layoutViews];
 	}
 }
-
-
-- (void)positionInnerContainer
-{
-	CGRect screenFrame = [[UIScreen mainScreen] bounds];
-	CGRect innerContainerRect;
-	
-	if( self.interfaceOrientation == UIInterfaceOrientationPortrait || self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown )
-	{//portrait
-		innerContainerRect = CGRectMake( 0, _container.frame.size.height - screenFrame.size.height, _container.frame.size.width, screenFrame.size.height );
-	}
-	else 
-	{// landscape
-		innerContainerRect = CGRectMake( 0, _container.frame.size.height - screenFrame.size.width, _container.frame.size.width, screenFrame.size.width );
-	}
-	
-	_innerContainer.frame = innerContainerRect;
-}
-
-
-- (void)positionScroller
-{
-	CGRect screenFrame = [[UIScreen mainScreen] bounds];
-	CGRect scrollerRect;
-	
-	if( self.interfaceOrientation == UIInterfaceOrientationPortrait || self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown )
-	{//portrait
-		scrollerRect = CGRectMake( 0, 0, screenFrame.size.width, screenFrame.size.height );
-	}
-	else
-	{//landscape
-		scrollerRect = CGRectMake( 0, 0, screenFrame.size.height, screenFrame.size.width );
-	}
-	
-	_scroller.frame = scrollerRect;
-}
-
 
 - (void)positionToolbar
 {

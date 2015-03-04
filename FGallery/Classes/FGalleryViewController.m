@@ -57,8 +57,6 @@
 - (void)enableApp;
 - (void)disableApp;
 
-- (void)positionInnerContainer;
-- (void)positionScroller;
 - (void)positionToolbar;
 - (void)resizeThumbView;
 
@@ -482,8 +480,6 @@
 
 - (void)layoutViews
 {
-	[self positionInnerContainer];
-	[self positionScroller];
 	[self resizeThumbView];
 	[self positionToolbar];
 	[self updateScrollSize];
